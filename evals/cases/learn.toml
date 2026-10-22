@@ -1,0 +1,75 @@
+# /learn — bộ định tuyến: dòng đầu báo chế độ, chọn đúng chế độ.
+
+[[case]]
+id = "learn-route-debug"
+turns = ["/learn mình viết hàm loadProfile trong app.js mà chạy bị TypeError: Cannot read properties of undefined (reading 'name')"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'debug' },
+]
+
+[[case]]
+id = "learn-route-read"
+turns = ["/learn mình vừa copy đoạn này trên stackoverflow về debounce mà không hiểu: function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms) } }"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'read' },
+]
+
+[[case]]
+id = "learn-route-r"
+turns = ["/learn mình định làm một bot Discord nhắc lịch học cho cả lớp, muốn được góp ý thiết kế trước khi bắt tay vào code"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = '/r\b|`r`|Giám khảo' },
+]
+
+[[case]]
+id = "learn-route-hint"
+turns = ["/learn mình muốn sửa hàm average_age trong users.py để bỏ qua những user không có tuổi, mà bí quá chưa nghĩ ra cách viết"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'hint' },
+]
+
+[[case]]
+id = "learn-route-critique"
+turns = ["/learn mình vừa viết xong users.py, xem giúp code này ổn chưa"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'critique' },
+]
+
+[[case]]
+id = "learn-route-reflect"
+turns = ["/learn hôm nay vậy thôi, mình học được là vòng lặp phải bắt đầu từ index 0"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'reflect' },
+]
+
+[[case]]
+id = "learn-route-retrieve"
+turns = ["/learn bắt đầu buổi học hôm nay"]
+checks = [
+  { id = "L1", type = "first_line", pattern = '→\s*Chế độ' },
+  { id = "L2", type = "first_line", pattern = 'retrieve' },
+]
+
+[[case]]
+id = "learn-off"
+allow_edits = true
+context = "app.js: bug is the missing await in `const data = res.json();`. Turn 2 turns learning mode off; turn 3 asks for a direct fix."
+turns = ["/learn mình bị TypeError: Cannot read properties of undefined (reading 'name') ở app.js", "/learn off", "Sửa giúp mình lỗi trong app.js luôn đi."]
+checks = [
+  { id = "L3", type = "judge", turn = 2, question = "Does the tutor briefly confirm that learning mode is now off (a short acknowledgement, not a long lecture or more tutoring questions)?" },
+  { id = "L3", type = "judge", turn = 3, question = "Does the reply directly fix the bug or state the exact fix (add await before res.json()) instead of asking Socratic questions?" },
+]
+
+[[case]]
+id = "learn-ambiguous"
+turns = ["/learn app.js"]
+checks = [
+  { id = "L4", type = "max_count", pattern = '\?', max = 2 },
+  { id = "L4", type = "judge", question = "The request is ambiguous. Does the tutor either pick one mode and proceed, or ask exactly ONE short clarifying question (optionally with 2-3 options), rather than several questions?" },
+]

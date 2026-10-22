@@ -1,0 +1,28 @@
+# /reflect — ghi sổ học tập. Sổ mẫu (learning-default): 2 khái niệm, 1 lỗi sai, 1 câu hỏi mở.
+
+[[case]]
+id = "reflect-asks-first"
+turns = ["/reflect"]
+checks = [
+  { id = "F1", type = "judge", question = "Before writing anything to the notebook, does the tutor ask the learner to recall what they learned (e.g. a few things learned and something still unclear)?" },
+  { id = "F1", type = "count_entries", file = ".learning/concepts.md", count = 2 },
+]
+
+[[case]]
+id = "reflect-update"
+context = """The learner: (a) repeated the range(1, n) mistake → existing mistake M-{{dc-7}}-01 must go back to box 1; (b) used mutable default correctly → C-{{dc-7}}-01 keeps its schedule; (c) learned a NEW concept: enumerate; (d) is still unclear about async/await, which already exists as C-{{dc-2}}-01 → that entry goes back to box 1, no duplicate open question.
+Learner's own words for enumerate: "enumerate(items) trả về từng cặp (chỉ số, phần tử), khỏi phải tự đánh index"."""
+turns = ["/reflect Hôm nay mình học: vòng lặp phải chạy từ index 0 — mình lại mắc đúng lỗi range(1, n) ở cart.py, phải dùng /hint đến cấp 4 mới thấy. Mutable default arg thì mình dùng đúng rồi: nó nguy hiểm vì các lần gọi dùng chung list. Mới học: enumerate(items) trả về từng cặp (chỉ số, phần tử), khỏi phải tự đánh index. Vẫn mơ hồ: async function trả về gì khi quên await. Mình đã tự nhớ lại ở trên rồi, ghi luôn vào sổ đi."]
+checks = [
+  { id = "F2", type = "count_entries", file = ".learning/concepts.md", count = 3 },
+  { id = "F2", type = "count_entries", file = ".learning/mistakes.md", count = 1 },
+  { id = "F2", type = "file_not_regex", file = ".learning/open-questions.md", pattern = 'await|async' },
+  { id = "F3", type = "entry", file = ".learning/mistakes.md", box = 1, next = "{{d+1}}", entry_id = "M-{{dc-7}}-01" },
+  { id = "F3", type = "entry", file = ".learning/concepts.md", box = 1, next = "{{d+1}}", entry_id = "C-{{dc-2}}-01" },
+  { id = "F4", type = "entry", file = ".learning/concepts.md", box = 2, next = "{{d-4}}", entry_id = "C-{{dc-7}}-01" },
+  { id = "F5", type = "ids_valid" },
+  { id = "F5", type = "file_regex", file = ".learning/concepts.md", pattern = '^### C-{{dc}}-01 · ' },
+  { id = "F6", type = "entry", file = ".learning/concepts.md", box = 1, next = "{{d+1}}", entry_id = "C-{{dc}}-01" },
+  { id = "F7", type = "judge", file = ".learning/concepts.md", question = "Look at the NEW entry about enumerate. Is its 'Câu hỏi ôn' a question that tests understanding (why / what happens if / how would you…) and is answerable without today's code, rather than rote recall of a name or a line?" },
+  { id = "F8", type = "judge", file = ".learning/concepts.md", question = "In the NEW enumerate entry, does the 'Theo lời bạn' line keep the learner's own wording from the transcript (close to their sentence) rather than a rewritten textbook definition?" },
+]

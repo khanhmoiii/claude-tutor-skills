@@ -1,0 +1,47 @@
+# /debug — gia sư gỡ lỗi. Lỗi cài sẵn: app.js thiếu await trước res.json().
+
+[[case]]
+id = "debug-trace"
+context = "app.js: real cause is the missing await in `const data = res.json();` — data is a Promise, so data.profile is undefined. The learner's hypothesis in turn 2 (API returns bad data) is wrong."
+turns = ["""/debug chạy thì lỗi:
+TypeError: Cannot read properties of undefined (reading 'name')
+    at loadProfile (app.js:4:23)""", "Mình mong đợi nó trả về tên user, nhưng nó crash. Mình nghĩ là API trả về sai dữ liệu."]
+checks = [
+  { id = "D1", type = "judge", turn = 1, question = "The learner already pasted the error and stack trace. Does the tutor avoid asking them to paste or provide the error again, and work from it?" },
+  { id = "D2", type = "not_regex", turn = 1, critical = true, pattern = '(thiếu|quên|chưa có|không có)\s+`?await|Promise' },
+  { id = "D2", type = "not_regex", turn = 2, critical = true, pattern = '(thiếu|quên|chưa có|không có)\s+`?await|Promise' },
+  { id = "D3", type = "judge", turn = 2, question = "The learner's hypothesis is not the real cause. Does the tutor avoid flatly calling it wrong, and instead ask for evidence or an experiment (e.g. logging data) that would test it?" },
+  { id = "D4", type = "judge", turn = 2, question = "Does the tutor ask the learner to come up with at least one alternative hypothesis?" },
+  { id = "X1", type = "judge", turn = 2, question = "Does the reply avoid giving the solution (the missing await / corrected code)?" },
+  { id = "X2", type = "max_count", turn = 1, pattern = '\?', max = 3 },
+  { id = "X2", type = "max_count", turn = 2, pattern = '\?', max = 3 },
+  { id = "X3", type = "not_regex", turn = 1, pattern = '(sẽ|mình|tôi)\s+(không|chưa)\s+(nói|tiết lộ|đưa)\s+(ngay|luôn|đáp án|lời giải)|để bạn tự (tìm|khám phá)|tự tìm (thì|sẽ) nhớ' },
+  { id = "X4", type = "regex", turn = 1, pattern = '[ăâđêôơưạảấầậắằặẹẻẽếềệịọỏốồộớờợụủứừựỳ]' },
+]
+
+[[case]]
+id = "debug-stuck"
+context = "app.js: real cause is the missing await before res.json(). The learner is stuck for three turns."
+turns = ["""/debug chạy thì lỗi:
+TypeError: Cannot read properties of undefined (reading 'name')
+    at loadProfile (app.js:4:23)""", "không biết", "mình chịu, không biết", "vẫn không biết luôn"]
+checks = [
+  { id = "D5", type = "judge", turn = 4, question = "The learner has been stuck for several turns. In this last reply, does the tutor change approach by giving a concrete hint (name the concept, or point to the line/expression to inspect, or suggest a specific log) instead of repeating the same kind of open question?" },
+]
+
+[[case]]
+id = "debug-finish"
+context = "cart.py: the learner found and fixed range(1, len(items)) themselves."
+turns = ["/debug cart.py in ra 20.0 thay vì 120.0", "Mình tìm ra rồi: range(1, len(items)) bỏ qua phần tử đầu. Mình sửa thành range(len(items)) và chạy lại in 120.0 rồi."]
+checks = [
+  { id = "D6", type = "judge", turn = 2, question = "Does the tutor ask how to prevent this bug from returning (e.g. a test or assert) or how to recognize this kind of bug faster next time?" },
+]
+
+[[case]]
+id = "debug-emergency"
+allow_edits = true
+context = "users.py get_user: fetchone() returns None when the user does not exist, then row[0] raises TypeError. The learner declares a production emergency."
+turns = ["/debug GẤP: production đang sập, khách không đăng nhập được. Log báo TypeError: 'NoneType' object is not subscriptable tại users.py dòng 7 trong get_user. Cần fix ngay, giải thích sau."]
+checks = [
+  { id = "X7", type = "judge", question = "Given an explicit production emergency, does the tutor provide a direct, concrete fix (the cause plus a code change, or apply the change) rather than only Socratic questions? One quick confirmation question together with the fix also passes." },
+]
