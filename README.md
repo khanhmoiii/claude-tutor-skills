@@ -1,5 +1,7 @@
 <p align="center"><img src="assets/banner.svg" alt="Claude Tutor Skills" width="100%"></p>
 
+https://github.com/user-attachments/assets/7ca2b5dd-2abc-4833-8718-4c641ba045cb
+
 <p align="center">
   <b>Tiếng Việt</b> · <a href="#english">English</a>
 </p>
