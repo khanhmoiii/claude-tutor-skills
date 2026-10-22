@@ -1,0 +1,12 @@
+{
+  "name": "tutor",
+  "version": "1.0.0",
+  "description": "Turn Claude Code into a programming tutor: hint ladder, Socratic debugging, design examiner, code critique, and spaced-repetition review (Vietnamese).",
+  "author": {
+    "name": "khanhmoiii"
+  },
+  "homepage": "https://github.com/khanhmoiii/claude-tutor-skills",
+  "repository": "https://github.com/khanhmoiii/claude-tutor-skills",
+  "license": "MIT",
+  "keywords": ["learning", "tutor", "education", "socratic", "debugging", "spaced-repetition", "vietnamese"]
+}

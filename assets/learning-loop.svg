@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" rx="16" fill="#f8fafc"/>
+  <text x="32" y="44" font-size="22" font-weight="700" fill="#0f172a">Vòng học một buổi</text>
+  <text x="32" y="68" font-size="14" fill="#475569">Không biết dùng lệnh nào? Gõ /learn — Claude tự chọn chế độ.</text>
+
+  <!-- start -->
+  <g transform="translate(32 110)">
+    <rect width="200" height="150" rx="12" fill="#ede9fe" stroke="#8b5cf6"/>
+    <text x="100" y="32" text-anchor="middle" font-size="13" fill="#6d28d9">ĐẦU BUỔI</text>
+    <text x="100" y="66" text-anchor="middle" font-size="20" font-weight="700" fill="#4c1d95" font-family="Consolas, Menlo, monospace">/retrieve</text>
+    <text x="100" y="96" text-anchor="middle" font-size="13" fill="#4c1d95">Tự nhớ lại kiến thức cũ</text>
+    <text x="100" y="116" text-anchor="middle" font-size="13" fill="#4c1d95">đến hạn ôn (Leitner)</text>
+  </g>
+
+  <!-- work -->
+  <g transform="translate(300 96)">
+    <rect width="300" height="178" rx="12" fill="#e0f2fe" stroke="#0ea5e9"/>
+    <text x="150" y="30" text-anchor="middle" font-size="13" fill="#0369a1">TRONG BUỔI</text>
+    <g font-size="14" fill="#0c4a6e">
+      <text x="20" y="62"><tspan font-family="Consolas, Menlo, monospace" font-weight="700">/hint</tspan>  bế tắc → gợi ý tăng dần</text>
+      <text x="20" y="88"><tspan font-family="Consolas, Menlo, monospace" font-weight="700">/read</tspan>  hiểu code người khác</text>
+      <text x="20" y="114"><tspan font-family="Consolas, Menlo, monospace" font-weight="700">/debug</tspan>  có bug → tự tìm gốc</text>
+      <text x="20" y="140"><tspan font-family="Consolas, Menlo, monospace" font-weight="700">/r</tspan>  thiết kế → bị chất vấn</text>
+      <text x="20" y="166"><tspan font-family="Consolas, Menlo, monospace" font-weight="700">/critique</tspan>  xong code → tự sửa</text>
+    </g>
+  </g>
+
+  <!-- end -->
+  <g transform="translate(668 110)">
+    <rect width="200" height="150" rx="12" fill="#fce7f3" stroke="#ec4899"/>
+    <text x="100" y="32" text-anchor="middle" font-size="13" fill="#be185d">CUỐI BUỔI</text>
+    <text x="100" y="66" text-anchor="middle" font-size="20" font-weight="700" fill="#831843" font-family="Consolas, Menlo, monospace">/reflect</text>
+    <text x="100" y="96" text-anchor="middle" font-size="13" fill="#831843">Bạn tự tổng kết,</text>
+    <text x="100" y="116" text-anchor="middle" font-size="13" fill="#831843">Claude ghi vào sổ</text>
+  </g>
+
+  <!-- notebook -->
+  <g transform="translate(300 320)">
+    <rect width="300" height="88" rx="12" fill="#fef9c3" stroke="#eab308"/>
+    <text x="150" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#713f12" font-family="Consolas, Menlo, monospace">.learning/</text>
+    <text x="150" y="54" text-anchor="middle" font-size="13" fill="#713f12">khái niệm · lỗi sai · câu hỏi bỏ ngỏ</text>
+    <text x="150" y="74" text-anchor="middle" font-size="13" fill="#713f12">nhật ký từng buổi</text>
+  </g>
+
+  <g stroke="#64748b" stroke-width="2" fill="none">
+    <line x1="232" y1="185" x2="296" y2="185" marker-end="url(#ah)"/>
+    <line x1="600" y1="185" x2="664" y2="185" marker-end="url(#ah)"/>
+    <path d="M768 260 V364 H604" marker-end="url(#ah)"/>
+    <path d="M300 364 H132 V264" marker-end="url(#ah)"/>
+  </g>
+  <text x="690" y="330" font-size="12" fill="#64748b">ghi</text>
+  <text x="150" y="330" font-size="12" fill="#64748b">buổi sau đọc lại</text>
+</svg>

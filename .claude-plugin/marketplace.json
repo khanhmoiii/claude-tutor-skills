@@ -1,0 +1,15 @@
+{
+  "name": "claude-tutor-skills",
+  "description": "Learning-first skills that make Claude Code teach instead of writing code for you.",
+  "owner": {
+    "name": "khanhmoiii"
+  },
+  "plugins": [
+    {
+      "name": "tutor",
+      "source": "./",
+      "description": "Turn Claude Code into a programming tutor: hint ladder, Socratic debugging, design examiner, code critique, and spaced-repetition review (Vietnamese).",
+      "version": "1.0.0"
+    }
+  ]
+}

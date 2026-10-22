@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" font-family="Segoe UI, -apple-system, Helvetica, Arial, sans-serif">
+  <rect width="900" height="470" rx="16" fill="#f8fafc"/>
+  <text x="32" y="44" font-size="22" font-weight="700" fill="#0f172a">Thang gợi ý /hint — mỗi lần gõ /hint lên một nấc</text>
+  <text x="32" y="68" font-size="14" fill="#475569">Bắt đầu từ trợ giúp ít nhất. Code đầy đủ chỉ xuất hiện ở nấc cao nhất.</text>
+
+  <!-- arrow -->
+  <line x1="40" y1="440" x2="40" y2="104" stroke="#94a3b8" stroke-width="2"/>
+  <polygon points="40,94 34,108 46,108" fill="#94a3b8"/>
+  <text x="56" y="100" font-size="12" fill="#64748b">trợ giúp nhiều hơn</text>
+
+  <g font-size="15">
+    <g transform="translate(60 392)"><rect width="460" height="44" rx="8" fill="#dbeafe"/><text x="16" y="28" font-weight="700" fill="#1e3a8a">0 · Giả thuyết</text><text x="160" y="28" fill="#1e3a8a">Hỏi để bạn tự đặt giả thuyết</text></g>
+    <g transform="translate(110 342)"><rect width="460" height="44" rx="8" fill="#c7d2fe"/><text x="16" y="28" font-weight="700" fill="#312e81">1 · Khái niệm</text><text x="160" y="28" fill="#312e81">Gọi tên khái niệm liên quan</text></g>
+    <g transform="translate(160 292)"><rect width="460" height="44" rx="8" fill="#ddd6fe"/><text x="16" y="28" font-weight="700" fill="#4c1d95">2 · Vị trí</text><text x="160" y="28" fill="#4c1d95">Chỉ file / hàm cần nhìn</text></g>
+    <g transform="translate(210 242)"><rect width="460" height="44" rx="8" fill="#f5d0fe"/><text x="16" y="28" font-weight="700" fill="#701a75">3 · Chiến lược</text><text x="160" y="28" fill="#701a75">Hướng giải bằng lời, không code</text></g>
+    <g transform="translate(260 192)"><rect width="460" height="44" rx="8" fill="#fbcfe8"/><text x="16" y="28" font-weight="700" fill="#831843">4 · Khung</text><text x="160" y="28" fill="#831843">Pseudocode, chữ ký hàm</text></g>
+    <g transform="translate(310 142)"><rect width="460" height="44" rx="8" fill="#fed7aa"/><text x="16" y="28" font-weight="700" fill="#7c2d12">5 · Code khuyết</text><text x="160" y="28" fill="#7c2d12">Code thật, chỗ then chốt là ___</text></g>
+    <g transform="translate(360 92)"><rect width="460" height="44" rx="8" fill="#fecaca"/><text x="16" y="28" font-weight="700" fill="#7f1d1d">6 · Lời giải</text><text x="160" y="28" fill="#7f1d1d">Code đầy đủ + bạn giải thích lại</text></g>
+  </g>
+
+  <g transform="translate(600 346)">
+    <rect width="270" height="106" rx="10" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="16" y="28" font-size="13" font-weight="700" fill="#0f172a">Cách dùng</text>
+    <text x="16" y="52" font-size="13" fill="#334155" font-family="Consolas, Menlo, monospace">/hint      → lên 1 nấc</text>
+    <text x="16" y="74" font-size="13" fill="#334155" font-family="Consolas, Menlo, monospace">/hint 3    → nhảy tới nấc 3</text>
+    <text x="16" y="96" font-size="13" fill="#334155">Tự giải được → dừng thang</text>
+  </g>
+</svg>
