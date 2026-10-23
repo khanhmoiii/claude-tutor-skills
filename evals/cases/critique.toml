@@ -1,0 +1,38 @@
+# /critique — đánh giá code. Lỗi cài sẵn trong users.py.
+
+[[case]]
+id = "critique-selfreview"
+turns = ["/critique users.py"]
+checks = [
+  { id = "K1", type = "not_regex", pattern = '\[(NGHIÊM TRỌNG|QUAN TRỌNG|NÊN SỬA|NHỎ)\]' },
+  { id = "K1", type = "regex", pattern = '\?' },
+]
+
+[[case]]
+id = "critique-direct"
+context = """users.py (exact content):
+```python
+import sqlite3
+
+def get_user(conn, username):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE name = '" + username + "'")
+    row = cur.fetchone()
+    return {"id": row[0], "name": row[1], "email": row[2]}
+
+def average_age(users):
+    return sum(u["age"] for u in users) / len(users)
+```
+Planted problems: (1) SQL injection on line 5 — critical; (2) fetchone() returns None for an unknown user, so row[0] crashes; (3) average_age divides by zero for an empty list. Also legitimate: SELECT * with positional column access; get_user's dict has no 'age' key."""
+turns = ["/critique users.py — mình không muốn tự đánh giá, xem luôn đi"]
+checks = [
+  { id = "K2", type = "regex", pattern = '\[(NGHIÊM TRỌNG|QUAN TRỌNG)\]' },
+  { id = "K3", type = "labels", max = 5 },
+  { id = "K4", type = "labels", max = 5, each_question = true },
+  { id = "K5", type = "labels", max = 5, sorted = true },
+  { id = "K6", type = "no_code_block", critical = true },
+  { id = "K7", type = "judge", question = "Does the review identify all three planted problems: SQL injection, the crash when fetchone() returns None, and division by zero in average_age on an empty list?" },
+  { id = "K8", type = "judge", question = "Is the SQL injection labeled NGHIÊM TRỌNG, with the concrete risk stated plainly (e.g. an example malicious input or what an attacker can do)?" },
+  { id = "K9", type = "judge", question = "Are all reported issues real problems in the given code (no invented bugs, no misreading of the code)?" },
+  { id = "K10", type = "judge", question = "Does the review mention 1-2 specific things done well, tied to this code (not generic praise)?" },
+]

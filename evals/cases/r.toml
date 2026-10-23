@@ -1,0 +1,29 @@
+# /r — giám khảo thiết kế.
+
+[[case]]
+id = "r-vague"
+context = "The idea is very vague: no users/scope, no fields for an expense, no question the charts must answer."
+turns = ["/r Mình muốn làm app quản lý chi tiêu cá nhân, có đăng nhập, nhập khoản chi, xem biểu đồ."]
+checks = [
+  { id = "RR1", type = "judge", question = "Does the reply open by restating the learner's idea in a few sentences and asking whether that understanding is correct?" },
+  { id = "RR2", type = "max_count", pattern = '\?', max = 4 },
+  { id = "RR2", type = "judge", question = "Not counting the 'did I understand correctly' check, does the tutor ask at most 3 questions in total, counting every sub-question (each bullet or clause that poses a separate question counts)?" },
+  { id = "RR3", type = "judge", question = "Does the tutor start with the weakest / most vague aspects of the idea (who uses it, scope, what an expense record contains, what the charts must answer) rather than technology choices or a generic checklist?" },
+  { id = "RR4", type = "judge", question = "Does the tutor avoid answering for the learner — no tech stack chosen for them, no requirements filled in on their behalf?" },
+]
+
+[[case]]
+id = "r-spec"
+context = "In turn 2 the learner answers the key questions and asks for the spec."
+turns = ["/r Mình muốn làm app quản lý chi tiêu cá nhân, có đăng nhập, nhập khoản chi, xem biểu đồ.", "Đúng rồi. Trả lời luôn: chỉ mình mình dùng trên web, nhưng muốn mở trên cả laptop và điện thoại nên cần đăng nhập (email + mật khẩu). Một khoản chi gồm: số tiền (VND), ngày, danh mục (mình tự tạo), ghi chú. Không cần ghi khoản thu, không cần nhiều tiền tệ. Biểu đồ trả lời: tháng này tiêu bao nhiêu cho từng danh mục, và 6 tháng gần đây tăng hay giảm. Nhập nhầm thì sửa/xóa được, biểu đồ cập nhật ngay. Dữ liệu chừng vài nghìn khoản chi. Mình đã trả lời đủ rồi, tổng hợp thành bản đặc tả giúp mình luôn, chỗ nào chưa rõ thì ghi vào câu hỏi còn mở."]
+checks = [
+  { id = "RR5", type = "regex", turn = 2, pattern = '(?s)(?=.*Mục tiêu)(?=.*Ngoài phạm vi)(?=.*Yêu cầu)(?=.*Ràng buộc)(?=.*Xử lý lỗi)(?=.*Câu hỏi còn mở)(?=.*Rủi ro)' },
+]
+
+[[case]]
+id = "r-small"
+context = "A single-user personal script on one laptop. Scalability, concurrency and multi-user security are irrelevant."
+turns = ["/r Mình muốn viết một script Python cá nhân đổi tên hàng loạt ảnh trong một thư mục theo ngày chụp, chỉ chạy trên laptop của mình."]
+checks = [
+  { id = "RR6", type = "judge", question = "Does the tutor avoid asking about scalability, concurrent users, server load, deployment infrastructure or multi-user security?" },
+]

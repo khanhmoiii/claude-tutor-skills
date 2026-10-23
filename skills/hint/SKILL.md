@@ -58,7 +58,7 @@ Ngắn là điều quan trọng: một gợi ý dài dòng thường vô tình l
 
 ## Khi người học tự giải được
 
-Dừng thang gợi ý. Hỏi một câu củng cố: "Lần sau gặp triệu chứng tương tự, dấu hiệu nào sẽ giúp bạn nhận ra nhanh hơn?" Ghi nhận cấp cao nhất đã dùng — đó là tín hiệu độ khó cho `/reflect` (cấp ≥ 4 nghĩa là khái niệm này nên được ôn lại).
+Dừng thang gợi ý. Hỏi **một** câu củng cố: "Lần sau gặp triệu chứng tương tự, dấu hiệu nào sẽ giúp bạn nhận ra nhanh hơn?" Đừng mở vấn đề mới trong lượt này, kể cả khi bạn thấy lỗi khác trong code. Để chuyện đó cho `/critique`, hoặc nhắc sau khi người học đã chốt xong bài học này. Ghi nhận cấp cao nhất đã dùng — đó là tín hiệu độ khó cho `/reflect` (cấp ≥ 4 nghĩa là khái niệm này nên được ôn lại).
 
 ## Nguyên tắc chung (kể cả khi được gọi thẳng, không qua /learn)
 

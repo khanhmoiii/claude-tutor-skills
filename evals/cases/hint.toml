@@ -1,0 +1,56 @@
+# /hint — thang gợi ý. Lỗi cài sẵn: cart.py dùng range(1, len(items)).
+
+[[case]]
+id = "hint-new-escalate"
+context = "cart.py: bug is `for i in range(1, len(items))`, which skips index 0 (the 100-priced book), so it prints 20.0 instead of 120.0. Fix: range(len(items))."
+turns = ["/hint cart.py in ra 20.0 nhưng tôi mong đợi 120.0, tôi không hiểu sao", "/hint"]
+checks = [
+  { id = "H1", type = "regex", turn = 1, pattern = 'cấp 0\s*/\s*6' },
+  { id = "H2", type = "regex", turn = 2, pattern = 'cấp 1\s*/\s*6' },
+  { id = "H4", type = "no_code_block", turn = 1, critical = true },
+  { id = "H4", type = "no_code_block", turn = 2, critical = true },
+  { id = "H5", type = "judge", turn = 1, critical = true, question = "Does the reply AVOID pointing to where the bug is? Fail if it names or hints at the loop, range(), indices, the starting index, a specific line, or the specific expression involved in the bug. Asking about observable results (e.g. which item's price equals 20.0, which items were summed) is allowed." },
+  { id = "H6", type = "judge", turn = 2, question = "Does the reply name a general concept (e.g. list indexing / iterating over indices) WITHOUT revealing the exact faulty code or the fix (it must not say range(len(items)), 'start the loop at 0', or quote the faulty line)?" },
+  { id = "H9", type = "regex", turn = 1, pattern = '👉' },
+  { id = "H9", type = "regex", turn = 1, pattern = '/hint' },
+  { id = "X1", type = "judge", turn = 1, question = "Does the reply avoid giving the solution (corrected code, or an explicit statement of what to change)?" },
+  { id = "X2", type = "max_count", turn = 1, pattern = '\?', max = 3 },
+  { id = "X3", type = "not_regex", turn = 1, pattern = '(sẽ|mình|tôi)\s+(không|chưa)\s+(nói|tiết lộ|đưa)\s+(ngay|luôn|đáp án|lời giải)|để bạn tự (tìm|khám phá)|tự tìm (thì|sẽ) nhớ' },
+  { id = "X4", type = "regex", turn = 1, pattern = '[ăâđêôơưạảấầậắằặẹẻẽếềệịọỏốồộớờợụủứừựỳ]' },
+]
+
+[[case]]
+id = "hint-jump-5"
+context = "cart.py: bug is `range(1, len(items))`; the blank should hide the start index 0 / the range expression."
+turns = ["/hint 5 cart.py in ra 20.0 thay vì 120.0"]
+checks = [
+  { id = "H3", type = "regex", pattern = 'cấp 5\s*/\s*6' },
+  { id = "H7", type = "regex", pattern = '_{3,}' },
+  { id = "H7", type = "judge", question = "The reply should contain code with blanks (___) at the key part. Does it AVOID giving away what goes in the blanks anywhere in the text (e.g. stating the first index is 0, or that valid indices are 0 and 1, or writing range(len(items)))?" },
+]
+
+[[case]]
+id = "hint-level-6"
+context = "cart.py: bug is `range(1, len(items))`; fix is `range(len(items))`."
+turns = ["/hint 6 cart.py in ra 20.0 thay vì 120.0"]
+checks = [
+  { id = "H3", type = "regex", pattern = 'cấp 6\s*/\s*6' },
+  { id = "H8", type = "judge", question = "Pass only if ALL three hold: (a) the reply gives complete corrected code, (b) it explains why the fix is right / why the old code was wrong, (c) it ends by asking the learner to explain it back in their own words or to try a variation." },
+]
+
+[[case]]
+id = "hint-learner-solves"
+context = "cart.py: bug is `range(1, len(items))`; the learner finds it themselves in turn 2."
+turns = ["/hint cart.py in ra 20.0 thay vì 120.0", "À mình thấy rồi! range(1, len(items)) bỏ qua phần tử đầu, phải là range(len(items)). Chạy lại ra 120.0 rồi."]
+checks = [
+  { id = "H10", type = "not_regex", turn = 2, pattern = 'cấp [1-6]\s*/\s*6' },
+  { id = "H10", type = "judge", turn = 2, question = "Does the tutor confirm the learner's fix, stop giving hints (no new hint level), and ask at most one consolidating/reflection question?" },
+]
+
+[[case]]
+id = "hint-give-code"
+context = "cart.py: bug is `range(1, len(items))`; fix is `range(len(items))`. In turn 2 the learner explicitly asks for the code."
+turns = ["/hint cart.py in ra 20.0 thay vì 120.0", "Thôi cho tôi code luôn đi, tôi đang vội lắm."]
+checks = [
+  { id = "X6", type = "judge", turn = 2, question = "Does the tutor respect the explicit request by giving the corrected code (not more Socratic questions), AND ask the learner to explain back the code or the key change?" },
+]

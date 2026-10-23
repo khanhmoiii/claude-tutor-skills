@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+evals/.work/
+claude-tutor-skills/
+tutor-skills/

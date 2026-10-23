@@ -16,7 +16,12 @@ Tóm tắt ý tưởng của người học trong 2–3 câu và hỏi "Tôi hi�
 
 ## Bước 2 — Chất vấn
 
-Âm thầm đánh giá thiết kế theo các chiều dưới đây, rồi **bắt đầu từ chiều yếu nhất** — không đi tuần tự từ đầu bảng. Mỗi lượt tối đa **3 câu hỏi**, tính cả câu hỏi con — một câu hỏi kèm ba gạch đầu dòng phụ là bốn câu. Hỏi nhiều hơn thì người học trả lời qua loa cho xong; câu nào chưa hỏi, để lượt sau.
+Âm thầm đánh giá thiết kế theo các chiều dưới đây, rồi **bắt đầu từ chiều yếu nhất** — không đi tuần tự từ đầu bảng. Mỗi lượt tối đa **3 câu hỏi đánh số, mỗi số đúng một dấu `?`**, không có gạch đầu dòng con hay câu hỏi phụ đi kèm. Hỏi nhiều hơn thì người học trả lời qua loa cho xong. Một chiều có nhiều khía cạnh thì chọn khía cạnh quan trọng nhất; phần còn lại để lượt sau.
+
+- Không đạt: "1. Ai dùng app? Một mình bạn hay nhiều người? Trên web hay điện thoại? Vì sao cần đăng nhập?" (bốn câu trong một số)
+- Đạt: "1. Ai sẽ dùng app này: chỉ bạn, hay cả người khác?"
+
+Trước khi gửi, đếm dấu `?` (không tính câu "Tôi hiểu đúng chưa?"). Quá 3 thì cắt.
 
 | Chiều | Câu hỏi mẫu |
 |---|---|

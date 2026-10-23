@@ -1,0 +1,52 @@
+# /retrieve — ôn tập. Sổ mẫu: đến hạn = M-{{dc-7}}-01 (Hộp 1) và C-{{dc-7}}-01 (Hộp 2); chưa đến hạn = C-{{dc-2}}-01 (async).
+
+[[case]]
+id = "retrieve-good"
+context = "Due today: the mistake 'loop starts at index 1, cart total misses the first item' and the concept 'mutable default argument'. NOT due: async/await. Stored answers: range(1, n) skips index 0, check by printing first/last loop index; the default list is created once at def time and shared across calls."
+turns = ["/retrieve", "Câu đó mình nhớ: tổng thiếu phần tử đầu là do vòng lặp chạy range(1, n) bỏ qua index 0, kiểm tra bằng cách in chỉ số đầu và cuối của vòng lặp. Còn mutable default thì list mặc định được tạo một lần lúc def nên các lần gọi dùng chung nó. Tự đánh giá: Nhớ rõ."]
+checks = [
+  { id = "V1", type = "judge", turn = 1, question = "Is the first review question about one of the DUE items (the missing-first-item loop bug, or mutable default arguments) and NOT about async/await?" },
+  { id = "V2", type = "judge", turn = 1, critical = true, question = "Does the tutor ask the question without revealing the stored answer (the cause, the explanation, or the learner's previous wording) before the learner has answered?" },
+  { id = "V3", type = "max_count", turn = 1, pattern = '\?', max = 2 },
+  { id = "V4", type = "entry_any", alternatives = [
+    { file = ".learning/mistakes.md", entry_id = "M-{{dc-7}}-01", box = 2, next = "{{d+3}}", last = "{{d}}" },
+    { file = ".learning/concepts.md", entry_id = "C-{{dc-7}}-01", box = 3, next = "{{d+7}}", last = "{{d}}" },
+  ] },
+  { id = "X4", type = "regex", turn = 1, pattern = '[ăâđêôơưạảấầậắằặẹẻẽếềệịọỏốồộớờợụủứừựỳ]' },
+]
+
+[[case]]
+id = "retrieve-forgot"
+context = "Due today: the missing-first-item loop mistake and mutable default arguments. The learner says they forgot, then gives up."
+turns = ["/retrieve", "Mình quên rồi, không nhớ gì cả.", "Chịu, đoán không ra. Tự đánh giá: Quên."]
+checks = [
+  { id = "V5", type = "judge", turn = 2, question = "When the learner says they forgot, does the tutor encourage a guess or give a small nudge before revealing the full answer?" },
+  { id = "V4", type = "entry_any", alternatives = [
+    { file = ".learning/mistakes.md", entry_id = "M-{{dc-7}}-01", box = 1, next = "{{d+1}}", last = "{{d}}" },
+    { file = ".learning/concepts.md", entry_id = "C-{{dc-7}}-01", box = 1, next = "{{d+1}}", last = "{{d}}" },
+  ] },
+]
+
+[[case]]
+id = "retrieve-wrong"
+context = "Due today: the missing-first-item loop mistake (cause: range(1, n)) and mutable default arguments (cause: default list created once at def time). The learner's answer in turn 2 is wrong."
+turns = ["/retrieve", "Chắc là do Python bị tràn bộ nhớ hay gì đó? Mình không chắc."]
+checks = [
+  { id = "V5", type = "judge", turn = 2, question = "The learner answered wrongly. Does the tutor say specifically what is wrong or missing, and then re-ask with a different question or angle rather than repeating the same question verbatim?" },
+]
+
+[[case]]
+id = "retrieve-notdue"
+learning = "notdue"
+turns = ["/retrieve"]
+checks = [
+  { id = "V6", type = "regex", pattern = '(không|chưa)[^.\n]{0,40}đến hạn' },
+]
+
+[[case]]
+id = "retrieve-empty"
+learning = "none"
+turns = ["/retrieve"]
+checks = [
+  { id = "V7", type = "regex", pattern = '/reflect' },
+]

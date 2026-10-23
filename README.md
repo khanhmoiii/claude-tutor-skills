@@ -137,10 +137,42 @@ Nếu không muốn commit sổ học tập, thêm `.learning/` vào `.gitignore
 - **Tình huống khẩn cấp** (sự cố production, mất dữ liệu, lỗ hổng bảo mật đang bị khai thác) thì Claude xử lý trực tiếp trước, rồi mới phân tích để học.
 - Cú pháp và boilerplate được giải thích thẳng. Công sức của bạn dành cho khái niệm cốt lõi.
 
+## Đánh giá tự động (evals)
+
+Mỗi lần sửa skill được đo bằng [bộ eval](evals/README.md): 33 kịch bản hội thoại thật với Claude Code, chấm theo **63 tiêu chí** rút từ chính các file `SKILL.md`. Tiêu chí kiểm tra được bằng code (regex, đếm, trạng thái sổ `.learning/`, file code của người học có bị sửa không) thì chấm bằng code. Tiêu chí cần hiểu nghĩa ("gợi ý cấp 0 có lộ vị trí lỗi không?") do một lượt Claude khác làm giám khảo. Mỗi kịch bản chạy 3 lần. Tiêu chí "không lộ đáp án" phải đạt 3/3, các tiêu chí còn lại ≥ 2/3.
+
+| Phiên bản | Tiêu chí đạt ngưỡng | Lượt chấm đạt |
+|---|---|---|
+| v1: bản viết đầu tiên | 55/63 | 83% |
+| v1.1: sau kiểm thử thủ công | 59/63 | 93% |
+| **v2: sau khi sửa theo eval** | **63/63** | **98%** |
+
+Những tiêu chí thay đổi rõ nhất giữa v1 và v2:
+
+| Tiêu chí | v1 | v2 |
+|---|---|---|
+| `/learn` báo chế độ đã chọn ở dòng đầu (L1) | 3/21 | 19/21 |
+| `/hint` cấp 0 không lộ vị trí lỗi (H5, bắt buộc 3/3) | 0/3 | 3/3 |
+| `/r` hỏi tối đa 3 câu, tính cả câu con (RR2) | 0/6 | 4/6 |
+| `/debug` đòi người học nêu giả thuyết thứ hai (D4) | 1/3 | 3/3 |
+| `/debug` hỏi cách phòng lỗi khi người học đã tự sửa xong (D6) | 0/3 | 3/3 |
+| `/reflect` hạ hộp đúng mục người học còn mơ hồ (F3) | 3/6 | 6/6 |
+
+Model được đo là Sonnet, giám khảo cũng là Sonnet. Một lần chạy đầy đủ tốn khoảng 17 USD.
+
+Những giới hạn cần biết:
+- **Rủi ro học tủ:** v2 được sửa dựa trên chính các kịch bản này, nên 63/63 có thể đẹp hơn thực tế. Chưa có bộ kịch bản giữ riêng để kiểm tra chéo.
+- **Giám khảo chưa được kiểm chứng bằng người thật:** đối chiếu 20 mẫu thì đồng ý 19/20, nhưng người chấm thứ hai cũng là Claude. Xem [evals/calibration.md](evals/calibration.md).
+- **RR2 vẫn chưa ổn định:** 4/6, vừa đủ ngưỡng. `/r` thỉnh thoảng vẫn hỏi dồn.
+
+Kết quả từng lần chạy, kèm toàn bộ câu trả lời và lý do chấm, nằm trong [evals/results/](evals/results/).
+
 ## Kiểm thử
 
-- `tests/test_leitner.py`: 6 unit test cho lịch ôn (cộng ngày qua tháng, lên/xuống hộp, sinh ID). Chạy bằng `python -m unittest discover tests`.
-- `tests/scenarios.md`: các kịch bản đã chạy với Claude thật trên dự án mẫu `tests/fixture/`, kèm hành vi mong đợi và các lỗi đã phát hiện và sửa.
+- `tests/test_leitner.py`: 6 unit test cho lịch ôn (cộng ngày qua tháng, lên/xuống hộp, sinh ID).
+- `tests/test_evals.py`: 6 unit test cho phần chấm bằng code của bộ eval.
+- Chạy cả hai bằng `python -m unittest discover tests`.
+- `tests/scenarios.md`: nhật ký đợt kiểm thử thủ công đầu tiên, trước khi có bộ eval.
 
 ## Tùy biến
 
@@ -161,6 +193,8 @@ Mỗi skill là một file Markdown trong `skills/<tên>/SKILL.md`. Bạn có th
 - `/r`: design examiner. Claude interrogates your plan until it becomes a tight spec.
 - `/critique`: code review with severity labels and guiding questions; Claude does not rewrite your code.
 - `/reflect` and `/retrieve`: an end-of-session notebook in `.learning/`, then spaced-repetition review (Leitner boxes) at the start of the next session.
+
+Behavior is measured with an [eval suite](evals/README.md): 33 real Claude Code conversations graded against 63 criteria (code checks plus an LLM judge, 3 runs each). The first draft passed 55/63; the current version passes 63/63 (98% of individual checks).
 
 Install: clone the repo and run `install.ps1` (Windows) or `install.sh`, or add it as a plugin with `/plugin marketplace add khanhmoiii/claude-tutor-skills`.
 
