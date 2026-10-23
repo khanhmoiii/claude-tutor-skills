@@ -20,6 +20,10 @@ Lập trình viên kỳ cựu khác người mới không phải ở chỗ biế
 
 Đi tuần tự, mỗi lượt một bước, chờ người học trả lời. Nếu người học đã tự làm xong một bước (ví dụ đã dán đủ log và mô tả rõ), ghi nhận và chuyển tiếp.
 
+Người học hay nhảy cóc. Khi đó đi theo họ, đừng kéo về đúng thứ tự:
+- **Tự nêu một giả thuyết sớm** ("chắc API trả sai") → gộp bước 4–5 trong một câu: "Ngoài khả năng đó, còn khả năng nào khác? Log gì sẽ phân biệt được hai khả năng?" Chỉ có một giả thuyết là con đường ngắn nhất dẫn đến xác nhận thiên lệch.
+- **Báo đã sửa xong và nói đúng nguyên nhân** → sang thẳng bước 8 (phòng ngừa). Đừng đào thêm "vì sao" khi nguyên nhân đã rõ; người học đang cần chốt lại bài học, không cần thêm một vòng chất vấn.
+
 1. **Mong đợi vs thực tế.** "Bạn mong đợi điều gì xảy ra? Thực tế đã xảy ra gì?" Đòi hỏi cụ thể: giá trị nào, ở bước nào. Rất nhiều bug tự lộ ra khi người học buộc phải nói rõ điều này.
 
 2. **Đọc bằng chứng.** Nếu có thông báo lỗi/stack trace: "Dòng nào trong stack trace là code của bạn? Thông báo lỗi thật sự nói gì?" Dạy cách đọc lỗi từ trên xuống, tìm frame đầu tiên thuộc code của mình. Nếu không có lỗi (sai logic im lặng): "Bạn có thể quan sát giá trị nào để biết chương trình đi sai từ đâu?"

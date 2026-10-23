@@ -215,18 +215,23 @@ def judge(case, replies, run_dir, checks, model):
                                  artifacts=artifacts, criteria=criteria)
     jdir = WORK / "_judge"
     jdir.mkdir(parents=True, exist_ok=True)
-    res = claude(["-p", "--model", model, "--setting-sources", "project", "--tools", "",
-                  "--output-format", "json", "--", prompt], jdir)
-    text = res.get("result", "")
-    try:
-        data = json.loads(text[text.index("{"):text.rindex("}") + 1])
-    except ValueError:
-        data = {}
+    cost = 0
+    for _ in range(2):  # one retry when the verdict is missing or not valid JSON
+        res = claude(["-p", "--model", model, "--setting-sources", "project", "--tools", "",
+                      "--output-format", "json", "--", prompt], jdir)
+        cost += res.get("total_cost_usd") or 0
+        text = res.get("result", "")
+        try:
+            data = json.loads(text[text.index("{"):text.rindex("}") + 1])
+        except ValueError:
+            data = {}
+        if all(f"c{k}" in data for k, _ in checks):
+            break
     out = {}
     for k, _ in checks:
         v = data.get(f"c{k}", {})
         out[k] = (bool(v.get("pass")), v.get("reason", "judge gave no verdict"))
-    out["_cost"] = res.get("total_cost_usd") or 0
+    out["_cost"] = cost
     return out
 
 
@@ -331,6 +336,36 @@ def compare(a, b):
     return "\n".join(lines)
 
 
+def merge(base, patch):
+    """Replace base's runs of every case that patch re-ran (e.g. after a criterion changed)."""
+    redone = {r["case"] for r in patch["runs"]}
+    runs = [r for r in base["runs"] if r["case"] not in redone] + patch["runs"]
+    runs.sort(key=lambda r: (r["case"], r["run"]))
+    note = f"{base.get('note', '')} re-ran {sorted(redone)} on {patch['date']}".strip()
+    return dict(base, runs=runs, cost=base["cost"] + patch["cost"], note=note)
+
+
+def sample(data, n, seed):
+    """Random judge verdicts with the reply they graded, for checking the judge by hand."""
+    import random
+    cases = {c["id"]: c for c in load_cases(None)}
+    items = []
+    for r in data["runs"]:
+        specs = [c for c in cases[r["case"]]["checks"] if c["type"] == "judge"]
+        verdicts = [c for c in r["checks"] if c["type"] == "judge"]
+        items += [(r, s, v) for s, v in zip(specs, verdicts)]
+    random.seed(seed)
+    out = []
+    for i, (r, s, v) in enumerate(random.sample(items, min(n, len(items))), 1):
+        t = s.get("turn", len(r["replies"]))
+        out += [f"## S{i} · {r['case']}#{r['run']} · {s['id']} · turn {t} · giám khảo: {'✅' if v['pass'] else '❌'}",
+                f"**Tiêu chí:** {s['question']}", "",
+                f"**Người học:** {cases[r['case']]['turns'][t - 1]}", "",
+                "**Tutor:**", r["replies"][t - 1] if "file" not in s else f"(chấm trên file {s['file']})", "",
+                f"**Lý do của giám khảo:** {v['evidence']}", "", "**Người chấm 2:** ✅ / ❌", ""]
+    return "\n".join(out)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     p = argparse.ArgumentParser()
@@ -344,6 +379,14 @@ def main():
     r.add_argument("--case", nargs="*", help="only cases whose id contains one of these")
     r.add_argument("--workers", type=int, default=6)
     sub.add_parser("report").add_argument("file")
+    m = sub.add_parser("merge")
+    m.add_argument("base")
+    m.add_argument("patch")
+    m.add_argument("out")
+    s = sub.add_parser("sample")
+    s.add_argument("file")
+    s.add_argument("--n", type=int, default=20)
+    s.add_argument("--seed", type=int, default=7)
     c = sub.add_parser("compare")
     c.add_argument("a")
     c.add_argument("b")
@@ -351,6 +394,17 @@ def main():
 
     if a.cmd == "report":
         print(report(json.loads(pathlib.Path(a.file).read_text(encoding="utf-8"))))
+        return
+    if a.cmd == "merge":
+        load = lambda f: json.loads(pathlib.Path(f).read_text(encoding="utf-8"))
+        data = merge(load(a.base), load(a.patch))
+        out = pathlib.Path(a.out)
+        out.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+        out.with_suffix(".md").write_text(report(data), encoding="utf-8")
+        print(f"Saved {out} ({data['note']})")
+        return
+    if a.cmd == "sample":
+        print(sample(json.loads(pathlib.Path(a.file).read_text(encoding="utf-8")), a.n, a.seed))
         return
     if a.cmd == "compare":
         load = lambda f: json.loads(pathlib.Path(f).read_text(encoding="utf-8"))

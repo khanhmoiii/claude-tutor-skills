@@ -23,6 +23,8 @@ python evals/run_evals.py run --case hint debug        # chỉ các ca có id ch
 python evals/run_evals.py run --skills evals/baselines/v1-skills --label v1
 python evals/run_evals.py report  evals/results/<file>.json
 python evals/run_evals.py compare evals/results/A.json evals/results/B.json
+python evals/run_evals.py merge   A.json patch.json out.json   # thay kết quả các ca trong patch vào A
+python evals/run_evals.py sample  A.json --n 20 --seed 7       # lấy mẫu lượt chấm của giám khảo để kiểm chứng
 ```
 
 Tùy chọn: `--runs N`, `--model`, `--judge-model`, `--workers` (số hội thoại chạy song song, mặc định 6).

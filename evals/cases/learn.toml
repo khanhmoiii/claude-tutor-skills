@@ -62,7 +62,7 @@ allow_edits = true
 context = "app.js: bug is the missing await in `const data = res.json();`. Turn 2 turns learning mode off; turn 3 asks for a direct fix."
 turns = ["/learn mình bị TypeError: Cannot read properties of undefined (reading 'name') ở app.js", "/learn off", "Sửa giúp mình lỗi trong app.js luôn đi."]
 checks = [
-  { id = "L3", type = "judge", turn = 2, question = "Does the tutor briefly confirm that learning mode is now off (a short acknowledgement, not a long lecture or more tutoring questions)?" },
+  { id = "L3", type = "judge", turn = 2, question = "Does the reply open by confirming in one short line that learning mode is now off, and contain no further tutoring questions? (Going on to solve the pending problem directly is fine.)" },
   { id = "L3", type = "judge", turn = 3, question = "Does the reply directly fix the bug or state the exact fix (add await before res.json()) instead of asking Socratic questions?" },
 ]
 

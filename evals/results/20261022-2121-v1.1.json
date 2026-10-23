@@ -1,5 +1,5 @@
 {
- "label": "current",
+ "label": "v1.1",
  "date": "2026-10-22T21:21",
  "model": "sonnet",
  "judge_model": "sonnet",
@@ -4195,5 +4195,6 @@
     }
    ]
   }
- ]
+ ],
+ "note": "skills at commit ada8b8f (after manual testing); older L3 wording, no judge retry"
 }
